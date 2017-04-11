@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    \#parse("/macros/static-head.vm")
+    <script type="text/javascript">
+        function save() {
+            $("#submitForm").submit();
+        }
+        function refresh(){
+            window.location.href="list.html"
+        }
+        function add(){
+            window.location.href="add.html"
+        }
+    </script>
+</head>
+<body>
+<form id="submitForm" name="submitForm" method="post" action='/manage/${variableName}/add.html'>
+    <div class="Box">
+        <div class="title">
+            <h2>添加</h2>
+        </div>
+        #foreach($!field in $!fields)
+            <p class="frameGrp">
+                <label><em class="rc">*</em>$!{field}：</label>
+                <input type="text" name="${field}" value="$vo.${field}" id="${field}" placeholder="请输入角色名称">
+                <span class="prompt">20字以内</span>
+            </p>
+        #end
+        <div class="frameBtn">
+            <p class="tishi">带“<em class="rc">*</em>”的表示必须填</p>
+
+            <p class="btns">
+                <button type="button" class="btn b-btn" onclick="save()">提交</button>
+                <button type="button" class="btn w-btn" onclick="refresh()">返回</button>
+            </p>
+        </div>
+    </div>
+</form>
+\#if(${res}&&${res}==0)
+    <script>
+        alert("操作成功",refresh)
+    </script>
+\#elseif(${res}&&${res}==1)
+    <script>
+        alert("操作失败",add)
+    </script>
+\#end
+</body>
+</html>

@@ -1,0 +1,19 @@
+package ${mainPkg}.service;
+
+import ${mainPkg}.model.${className};
+import ${rootPkg}.framework.page.PaginationSupport;
+
+public interface I${className}Service {
+
+	int insert(${className} record);
+	
+	int deleteById(Integer id);
+
+	int update(${className} record);
+
+	${className} selectById(Integer id);
+	
+	PaginationSupport queryPage(${className} record, PaginationSupport ps);
+	
+	
+}

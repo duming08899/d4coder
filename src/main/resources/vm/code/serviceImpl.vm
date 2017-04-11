@@ -1,0 +1,45 @@
+package ${mainPkg}.service.impl;
+
+import java.util.List;
+
+
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import ${mainPkg}.dao.${className}Mapper;
+import ${mainPkg}.model.${className};
+import ${mainPkg}.service.I${className}Service;
+import ${rootPkg}.framework.page.PaginationSupport;
+
+@Service
+public class ${className}ServiceImpl implements I${className}Service {
+
+	@Autowired
+	${className}Mapper ${variableName}Mapper;
+
+	@Override
+	public int insert(${className} record) {
+        return ${variableName}Mapper.insert(record);
+	}
+
+	@Override
+	public int deleteById(Integer id) {
+        return ${variableName}Mapper.deleteById(id);
+	}
+
+	@Override
+	public int update(${className} record) {
+		return ${variableName}Mapper.update(record);
+	}
+
+	@Override
+	public ${className} selectById(Integer id) {
+		return ${variableName}Mapper.selectById(id);
+	}
+
+	@Override
+	public PaginationSupport queryPage(${className} record, PaginationSupport ps) {
+		List<${className}> suppliers = ${variableName}Mapper.queryPage(ps, record);
+		ps.setItems(suppliers);
+		return ps;
+	}
+}

@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    \#parse("/macros/static-head.vm")
+    <script type="text/javascript">
+        // 查询
+        function search() {
+            $("#searchForm").submit();
+        }
+
+        //修改
+        function modify(id) {
+            window.location.href = 'modify.html?id=' + id;
+        }
+
+        //禁用
+        function down(id) {
+            jQuery.ajax({
+                type: "get",
+                url: "upstatus.html",
+                data: "id=" + id + "&status=2",
+                success: function (msg) {
+                    if (msg == 0) {
+                        alert("停用成功")
+                    } else {
+                        alert("停用失败")
+                    }
+                    window.location.href = "list.html"
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+<div class="Box">
+    <!--标题-->
+    <div class="title">
+        <h2>操作列表</h2>
+    </div>
+    <!--搜索列-->
+    <form id="searchForm" action="list.html" method="post">
+        <div class="sysBox clearfix">
+            <div class="operaInfo fl">
+                <div class="con con-opera">
+                    <label>条件一：</label>
+                    <input type="text">
+                </div>
+                <div class="con con-opera">
+                    <label>条件二：</label>
+                    <input type="text">
+                </div>
+                <div class="con con-operaT">
+                    <label>操作时间：</label>
+                    <input type="text" class="mh_date" readonly="true" placeholder="__ ：__">
+                    <span>-</span>
+                    <input type="text" class="mh_date" readonly="true" placeholder="__ ：__">
+                </div>
+            </div>
+            <div class="operaBtn fl">
+                <button class="btn g-btn">查询</button>
+            </div>
+        </div>
+    </form>
+    <!--列表-->
+    <div class="sysList">
+        <table>
+            <thead>
+            <tr>
+                #foreach($!field in $!fields)
+                    <td>$!field</td>
+                #end
+                <td>状态</td>
+                <td>操作</td>
+            </tr>
+            </thead>
+            <tbody>
+            \#foreach($info in $ps.items)
+            <tr>
+                #foreach($!field in $!fields)
+                    <td>$info.$!field</td>
+                #end
+                <td>\#if($info.status == 1)启用 \#else 停用 \#end</td>
+                <td>
+                    <a class="blue" href="javascript:modify(${info.id});">修改|</a>
+                    \#if($info.status == 1)
+                    <a class="blue" href="javascript:down(${info.id});">停用</a>&nbsp;
+                    \#else
+                    <a class="blue" href="javascript:up(${info.id});">启用</a>
+                    \#end
+                </td>
+            </tr>
+            \#end
+            \#if(!$ps.items||$ps.items.size()==0)
+            <tr>
+                <td colspan="$info.size()">没有记录</td>
+            </tr>
+            \#end
+            </tbody>
+        </table>
+    </div>
+    <!--翻页区开始-->
+    #VP(10 "searchForm")
+    <!--翻页区结束-->
+</div>
+</body>
+</html>
